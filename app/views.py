@@ -34,7 +34,7 @@ def login():
     if request.method == "POST":
         # change this to actually validate the entire form submission
         # and not just one field
-        if form.username.data:
+        if form.validate_on_submit():
             # Get the username and password values from the form.
 
             # using your model, query database for a user based on the username
