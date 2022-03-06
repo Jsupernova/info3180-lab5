@@ -27,14 +27,18 @@ def about():
     """Render the website's about page."""
     return render_template('about.html')
 
+@app.route('/secure-page')
+@login_required
+def secure_page():
+    return render_template('secure_page.html')
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm()
-    if request.method == "POST":
+    if request.method == "POST" and form.validate_on_submit():
         # change this to actually validate the entire form submission
         # and not just one field
-        if form.validate_on_submit():
+        if form.username.data:
             # Get the username and password values from the form.
 
             # using your model, query database for a user based on the username
@@ -45,7 +49,7 @@ def login():
             username = form.username.data
             password = form.password.data
             user = UserProfile.query.filter_by(username=username).first()
-            if user is not None check_password_hash(user.password,password):
+            if user is not None and check_password_hash(user.password,password):
 
             # get user id, load into session
                 login_user(user)
